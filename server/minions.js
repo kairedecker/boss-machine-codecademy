@@ -1,7 +1,8 @@
 const express = require('express');
 const app = require('../server');
 const minionsRouter = express.Router();
-const {getAllFromDatabase, getFromDatabaseById, addToDatabase, updateInstanceInDatabase, deleteFromDatabasebyId} = require('./db');
+const {getAllFromDatabase, getFromDatabaseById, addToDatabase, 
+    updateInstanceInDatabase, deleteFromDatabasebyId} = require('./db');
 const { min } = require('mocha/lib/reporters');
 
 minionsRouter.param('minionId', (req, res, next, minionId) => {
@@ -33,7 +34,7 @@ minionsRouter.get('/:minionId', (req, res) => {
     res.status(200).send(req.minion);
 });
 
-minionsRouter.post('/', (req, res) => {
+minionsRouter.post('/', (req, res, next) => {
     try{
         const newMinion = addToDatabase('minions', req.body);
         if(!newMinion) {
@@ -46,7 +47,7 @@ minionsRouter.post('/', (req, res) => {
     }
 });
 
-minionsRouter.put('/:minionId', (req, res) => {
+minionsRouter.put('/:minionId', (req, res, next) => {
     try{
         const updatedMinion = updateInstanceInDatabase('minions', req.body);
         if(!updatedMinion) {
@@ -59,7 +60,7 @@ minionsRouter.put('/:minionId', (req, res) => {
     }
 });
 
-minionsRouter.put('/:minionId', (req, res) => {
+minionsRouter.put('/:minionId', (req, res, next) => {
     try{
         const updatedMinion = updateInstanceInDatabase('minions', req.body);
         if(!updatedMinion) {
@@ -72,7 +73,7 @@ minionsRouter.put('/:minionId', (req, res) => {
     }
 })
 
-minionsRouter.delete('/:minionId', (req, res) => {
+minionsRouter.delete('/:minionId', (req, res, next) => {
     try{
         const deleted = deleteFromDatabasebyId('minions', req.params.minionId);
         if(!deleted){

@@ -1,16 +1,10 @@
-const isValidIdea = require('db.js')
-
-const checkMillionDollarIdea = (idea) => {
-    if(!isValidIdea(idea)) {
-        return false;
+const checkMillionDollarIdea = (req,res,next) => {
+    const {numWeeks, weeklyRevenue} = req.body;
+    const totalMoney = Number(numWeeks) * Number(weeklyRevenue);
+    if (!numWeeks || !weeklyRevenue || isNaN(totalMoney) || totalMoney < 1000000) {
+        return res.status(400).send("Idea is not a million dollar idea");
     }
-    
-    const totalValue = idea.numWeeks * idea.weeklyRevenue;
-    if(totalValue > 1000000) {
-        return false;
-    }
-    return true;
-
+    next();
 };
 
 
